@@ -8,6 +8,8 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.util.DisplayMetrics;
 import android.util.Log;
+// TODO: orientation on create instance always portrait
+import android.view.Surface;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +35,8 @@ public class RCTCamera {
         return ourInstance;
     }
     public static void createInstance(int deviceOrientation,DisplayMetrics displayMetrics) {
-        ourInstance = new RCTCamera(deviceOrientation,displayMetrics);
+        // TODO: get rid of hardcode device orientation
+        ourInstance = new RCTCamera(Surface.ROTATION_0, displayMetrics);
     }
 
 
