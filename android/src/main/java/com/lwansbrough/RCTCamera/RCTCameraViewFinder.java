@@ -302,7 +302,11 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
         private Result getBarcode(int width, int height) {
             try{
-              PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, 0, 0, width, height, false);
+                int qrAreaWidth = (int) Math.round(width * 0.5556);
+                int qrAreaHeight = (int) Math.round(width * 0.39);
+                int leftOffset = (int) Math.round((width - qrAreaWidth) / 2);
+                int heightOffset = (int) Math.round((height - qrAreaHeight) / 2);
+              PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, leftOffset, heightOffset, qrAreaWidth, qrAreaHeight, false);
               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
               return _multiFormatReader.decodeWithState(bitmap);
             } catch (Throwable t) {
