@@ -118,10 +118,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     }
 
     public void setQrAreaCoordinates(ReadableMap coordinates) {
-        this.qrAreaWidth = coordinates.getInt("qrAreaWidth");
-        this.qrAreaHeight = coordinates.getInt("qrAreaHeight");
-        this.leftOffset = coordinates.getInt("leftOffset");
-        this.heightOffset = coordinates.getInt("heightOffset");
+        this._qrAreaWidth = coordinates.getInt("qrAreaWidth");
+        this._qrAreaHeight = coordinates.getInt("qrAreaHeight");
+        this._leftOffset = coordinates.getInt("leftOffset");
+        this._heightOffset = coordinates.getInt("heightOffset");
     }
 
     public void setTorchMode(int torchMode) {
