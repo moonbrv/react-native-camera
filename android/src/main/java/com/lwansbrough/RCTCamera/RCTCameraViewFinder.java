@@ -16,6 +16,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private boolean _isStopping;
     private Camera _camera;
     private float mFingerSpacing;
+    private ReadableMap _coordinates;
 
     // concurrency lock for barcode scanner to avoid flooding the runtime
     public static volatile boolean barcodeScannerTaskLock = false;
@@ -110,6 +112,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
     public void setCaptureQuality(String captureQuality) {
         RCTCamera.getInstance().setCaptureQuality(_cameraType, captureQuality);
+    }
+
+    public void setQrAreaCoordinates(ReadableMap coordinates) {
+        this._coordinates = coordinates;
     }
 
     public void setTorchMode(int torchMode) {
@@ -280,7 +286,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     /**
      * Spawn a barcode reader task if
      *  - the barcode scanner is enabled (has a onBarCodeRead function)
-     *  - one isn't already running
+     *  - one isn"t already running
      *
      * See {Camera.PreviewCallback}
      */
@@ -302,10 +308,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
         private Result getBarcode(int width, int height) {
             try{
-                int qrAreaWidth = (int) Math.round(width * 0.5556);
-                int qrAreaHeight = (int) Math.round(width * 0.39);
-                int leftOffset = (int) Math.round((width - qrAreaWidth) / 2);
-                int heightOffset = (int) Math.round((height - qrAreaHeight) / 2);
+                int qrAreaWidth = _coordinates.getInt("qrAreaWidth");
+                int qrAreaHeight = _coordinates.getInt("qrAreaHeight");
+                int leftOffset = _coordinates.getInt("leftOffset");
+                int heightOffset = _coordinates.getInt("heightOffset");
               PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, leftOffset, heightOffset, qrAreaWidth, qrAreaHeight, false);
               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
               return _multiFormatReader.decodeWithState(bitmap);
@@ -433,7 +439,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
      * Note that this will override the focus mode on the camera to FOCUS_MODE_AUTO if available,
      * even if this was previously something else (such as FOCUS_MODE_CONTINUOUS_*; see also
      * {@link #startCamera()}. However, this makes sense - after the user has initiated any
-     * specific focus intent, we shouldn't be refocusing and overriding their request!
+     * specific focus intent, we shouldn"t be refocusing and overriding their request!
      */
     public void handleFocus(MotionEvent event, Camera.Parameters params) {
         List<String> supportedFocusModes = params.getSupportedFocusModes();

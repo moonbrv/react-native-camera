@@ -14,6 +14,8 @@ import android.view.View;
 
 import java.util.List;
 
+import com.facebook.react.bridge.ReadableMap;
+
 public class RCTCameraView extends ViewGroup {
     private final OrientationEventListener _orientationListener;
     private final Context _context;
@@ -106,6 +108,12 @@ public class RCTCameraView extends ViewGroup {
         this._flashMode = flashMode;
         if (this._viewFinder != null) {
             this._viewFinder.setFlashMode(flashMode);
+        }
+    }
+
+    public void setQrAreaCoordinates(ReadableMap coordinates) {
+        if (this._viewFinder != null) {
+            this._viewFinder.setQrAreaCoordinates(coordinates);
         }
     }
 

@@ -3,6 +3,7 @@ package com.lwansbrough.RCTCamera;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.*;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
@@ -85,5 +86,13 @@ public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
             result.add(barCodeTypes.getString(i));
         }
         view.setBarCodeTypes(result);
+    }
+
+    @ReactProp(name = "qrAreaCoordinates")
+    public void setQrAreaCoordinates(RCTCameraView view, ReadableMap coordinates) {
+        if (coordinates == null) {
+            return;
+        }
+        view.setQrAreaCoordinates(coordinates);
     }
 }
