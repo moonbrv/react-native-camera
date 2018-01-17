@@ -43,10 +43,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private boolean _isStopping;
     private Camera _camera;
     private float mFingerSpacing;
-    private int qrAreaWidth;
-    private int qrAreaHeight;
-    private int leftOffset;
-    private int heightOffset;
+    private int _qrAreaWidth;
+    private int _qrAreaHeight;
+    private int _leftOffset;
+    private int _heightOffset;
 
     // concurrency lock for barcode scanner to avoid flooding the runtime
     public static volatile boolean barcodeScannerTaskLock = false;
@@ -314,7 +314,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
         private Result getBarcode(int width, int height) {
             try{
-              PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, leftOffset, heightOffset, qrAreaWidth, qrAreaHeight, false);
+              PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, _leftOffset, _heightOffset, _qrAreaWidth, _qrAreaHeight, false);
               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
               return _multiFormatReader.decodeWithState(bitmap);
             } catch (Throwable t) {
