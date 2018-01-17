@@ -116,7 +116,8 @@ export default class Camera extends Component {
     type: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ])
+    ]),
+    qrAreaCoordinates: PropTypes.object
   };
 
   static defaultProps = {
