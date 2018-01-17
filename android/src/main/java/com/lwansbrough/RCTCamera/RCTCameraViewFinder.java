@@ -43,7 +43,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private boolean _isStopping;
     private Camera _camera;
     private float mFingerSpacing;
-    private ReadableMap _coordinates;
+    private int qrAreaWidth;
+    private int qrAreaHeight;
+    private int leftOffset;
+    private int heightOffset;
 
     // concurrency lock for barcode scanner to avoid flooding the runtime
     public static volatile boolean barcodeScannerTaskLock = false;
@@ -115,7 +118,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     }
 
     public void setQrAreaCoordinates(ReadableMap coordinates) {
-        this._coordinates = coordinates;
+        this.qrAreaWidth = coordinates.getInt("qrAreaWidth");
+        this.qrAreaHeight = coordinates.getInt("qrAreaHeight");
+        this.leftOffset = coordinates.getInt("leftOffset");
+        this.heightOffset = coordinates.getInt("heightOffset");
     }
 
     public void setTorchMode(int torchMode) {
@@ -308,10 +314,6 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
         private Result getBarcode(int width, int height) {
             try{
-                int qrAreaWidth = _coordinates.getInt("qrAreaWidth");
-                int qrAreaHeight = _coordinates.getInt("qrAreaHeight");
-                int leftOffset = _coordinates.getInt("leftOffset");
-                int heightOffset = _coordinates.getInt("heightOffset");
               PlanarYUVLuminanceSource source = new PlanarYUVLuminanceSource(imageData, width, height, leftOffset, heightOffset, qrAreaWidth, qrAreaHeight, false);
               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
               return _multiFormatReader.decodeWithState(bitmap);
