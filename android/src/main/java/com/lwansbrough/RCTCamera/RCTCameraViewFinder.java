@@ -521,7 +521,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             // Cancel any previous focus actions.
             _camera.cancelAutoFocus();
 
-            Camera.Size size = camera.getParameters().getPreviewSize();
+            Camera.Size size = _camera.getParameters().getPreviewSize();
 
             int width = size.width;
             int height = size.height;
