@@ -169,14 +169,14 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
                 // Set auto-focus. Try to set to continuous picture/video, and fall back to general
                 // auto if available.
-//                List<String> focusModes = parameters.getSupportedFocusModes();
-//                if (isCaptureModeStill && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-//                } else if (isCaptureModeVideo && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
-//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-//                } else if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-//                }
+                List<String> focusModes = parameters.getSupportedFocusModes();
+                if (isCaptureModeStill && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                } else if (isCaptureModeVideo && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+                } else if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                }
 
                 handleFocusCoordinates(parameters);
 
@@ -521,11 +521,16 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             // Cancel any previous focus actions.
             _camera.cancelAutoFocus();
 
+            Camera.Size size = camera.getParameters().getPreviewSize();
+
+            int width = size.width;
+            int height = size.height;
+
             // Compute focus area rect.
             Camera.Area focusAreaFromCoordinates;
             try {
-                int centerX = _leftOffset + _qrAreaWidth / 2;
-                int centerY = _heightOffset + _qrAreaHeight / 2;
+                int centerX = (int) Math.round(width * 0.5);
+                int centerY = (int) Math.round(height * 0.6);
                 focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(centerX, centerY, _surfaceTextureWidth, _surfaceTextureHeight);
             } catch (final RuntimeException e) {
                 e.printStackTrace();
