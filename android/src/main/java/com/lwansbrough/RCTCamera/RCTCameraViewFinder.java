@@ -144,7 +144,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
         if (_surfaceTexture != null) {
             startCamera();
             Camera.Parameters params = _camera.getParameters();
-            handleFocusCoordinates(params)
+            handleFocusCoordinates(params);
         }
     }
 
