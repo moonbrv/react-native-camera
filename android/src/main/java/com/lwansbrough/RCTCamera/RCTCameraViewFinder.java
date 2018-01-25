@@ -143,6 +143,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private void startPreview() {
         if (_surfaceTexture != null) {
             startCamera();
+            Camera.Parameters params = _camera.getParameters();
+            handleFocusCoordinates(params)
         }
     }
 
@@ -167,14 +169,14 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
                 // Set auto-focus. Try to set to continuous picture/video, and fall back to general
                 // auto if available.
-                List<String> focusModes = parameters.getSupportedFocusModes();
-                if (isCaptureModeStill && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-                } else if (isCaptureModeVideo && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-                } else if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                }
+//                List<String> focusModes = parameters.getSupportedFocusModes();
+//                if (isCaptureModeStill && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE)) {
+//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+//                } else if (isCaptureModeVideo && focusModes.contains(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO)) {
+//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+//                } else if (focusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+//                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+//                }
 
                 handleFocusCoordinates(parameters);
 
