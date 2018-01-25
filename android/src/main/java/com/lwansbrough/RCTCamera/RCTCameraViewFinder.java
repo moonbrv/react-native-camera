@@ -155,6 +155,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     }
 
     synchronized private void startCamera() {
+        System.out.println("start Camera");
         if (!_isStarting) {
             _isStarting = true;
             try {
