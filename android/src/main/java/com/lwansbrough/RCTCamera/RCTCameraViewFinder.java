@@ -176,6 +176,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
 
+                handleFocusCoordinates(parameters);
+
                 // set picture size
                 // defaults to max available size
                 List<Camera.Size> supportedSizes;
@@ -477,6 +479,62 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             // Set focus area.
             final ArrayList<Camera.Area> focusAreas = new ArrayList<Camera.Area>();
             focusAreas.add(focusAreaFromMotionEvent);
+            params.setFocusAreas(focusAreas);
+
+            // Also set metering area if enabled. If max num metering areas is 0, then metering area
+            // is not supported. We can usually safely omit this anyway, though.
+            if (params.getMaxNumMeteringAreas() > 0) {
+                params.setMeteringAreas(focusAreas);
+            }
+
+            // Set parameters before starting auto-focus.
+            _camera.setParameters(params);
+
+            // Start auto-focus now that focus area has been set. If successful, then can cancel
+            // it afterwards. Wrap in try-catch to avoid crashing on merely autoFocus fails.
+            try {
+                _camera.autoFocus(new Camera.AutoFocusCallback() {
+                    @Override
+                    public void onAutoFocus(boolean success, Camera camera) {
+                        if (success) {
+                            camera.cancelAutoFocus();
+                        }
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleFocusCoordinates(Camera.Parameters params) {
+        List<String> supportedFocusModes = params.getSupportedFocusModes();
+        if (supportedFocusModes != null && supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
+            // Ensure focus areas are enabled. If max num focus areas is 0, then focus area is not
+            // supported, so we cannot do anything here.
+            if (params.getMaxNumFocusAreas() == 0) {
+                return;
+            }
+
+            // Cancel any previous focus actions.
+            _camera.cancelAutoFocus();
+
+            // Compute focus area rect.
+            Camera.Area focusAreaFromCoordinates;
+            try {
+                int centerX = _leftOffset + _qrAreaWidth / 2;
+                int centerY = _heightOffset + _qrAreaHeight / 2;
+                focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(centerX, centerY, _surfaceTextureWidth, _surfaceTextureHeight);
+            } catch (final RuntimeException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            // Set focus mode to auto.
+            params.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+            // Set focus area.
+            final ArrayList<Camera.Area> focusAreas = new ArrayList<Camera.Area>();
+            focusAreas.add(focusAreaFromCoordinates);
             params.setFocusAreas(focusAreas);
 
             // Also set metering area if enabled. If max num metering areas is 0, then metering area
