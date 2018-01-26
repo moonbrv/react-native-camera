@@ -703,6 +703,17 @@ public class RCTCameraModule extends ReactContextBaseJavaModule
         promise.resolve(null != flashModes && !flashModes.isEmpty());
     }
 
+    @ReactMethod
+    public void setFocusOnSnap() {
+        RCTCamera instance = RCTCamera.getInstance();
+        if (instance == null) return;
+
+        Camera camera = instance.acquireCameraInstance(options.getInt("type"));
+        if (camera == null) return;
+        Camera.Parameters params = camera.getParameters();
+        camera.handleFocusCoordinates(params)
+    }
+
     private File getOutputMediaFile(int type) {
         // Get environment directory type id from requested media type.
         String environmentDirectoryType;

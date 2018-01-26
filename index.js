@@ -259,6 +259,12 @@ export default class Camera extends Component {
     }
   }
 
+  setFocusOnSnap() {
+    if (Platform.OS === 'android') {
+      CameraManager.setFocusOnSnap();
+    }
+  }
+
   stopCapture() {
     if (this.state.isRecording) {
       this.setState({ isRecording: false });
