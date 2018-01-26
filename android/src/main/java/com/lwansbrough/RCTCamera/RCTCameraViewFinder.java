@@ -86,6 +86,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        Camera.Parameters params = _camera.getParameters();
+        handleFocusCoordinates(params);
     }
 
     public double getRatio() {
@@ -143,8 +145,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private void startPreview() {
         if (_surfaceTexture != null) {
             startCamera();
-            Camera.Parameters params = _camera.getParameters();
-            handleFocusCoordinates(params);
+//            Camera.Parameters params = _camera.getParameters();
+//            handleFocusCoordinates(params);
         }
     }
 
@@ -179,7 +181,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
 
-                handleFocusCoordinates(parameters);
+//                handleFocusCoordinates(parameters);
 
                 // set picture size
                 // defaults to max available size
