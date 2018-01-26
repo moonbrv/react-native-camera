@@ -524,8 +524,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
             Camera.Size size = _camera.getParameters().getPreviewSize();
 
-            int width = size.width;
-            int height = size.height;
+            int width = size.height;
+            int height = size.width;
 
             // Compute focus area rect.
             Camera.Area focusAreaFromCoordinates;
