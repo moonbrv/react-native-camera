@@ -86,8 +86,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
     @Override
     public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-        Camera.Parameters params = _camera.getParameters();
-        handleFocusCoordinates(params);
+//        Camera.Parameters params = _camera.getParameters();
+//        handleFocusCoordinates(params);
     }
 
     public double getRatio() {
