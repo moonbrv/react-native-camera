@@ -532,7 +532,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             try {
                 int centerX = (int) Math.round(width * 0.5);
                 int centerY = (int) Math.round(height * 0.6);
-                focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(centerX, centerY, _surfaceTextureWidth, _surfaceTextureHeight);
+                focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(246, 392, _surfaceTextureWidth, _surfaceTextureHeight);
             } catch (final RuntimeException e) {
                 e.printStackTrace();
                 return;
