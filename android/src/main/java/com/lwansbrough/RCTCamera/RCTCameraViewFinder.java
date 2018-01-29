@@ -181,7 +181,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
 
-//                handleFocusCoordinates(parameters);
+                handleFocusCoordinates();
 
                 // set picture size
                 // defaults to max available size
@@ -502,7 +502,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
                         if (success) {
-                            camera.cancelAutoFocus();
+//                            camera.cancelAutoFocus();
                         }
                     }
                 });
@@ -525,16 +525,11 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             // Cancel any previous focus actions.
             _camera.cancelAutoFocus();
 
-            Camera.Size size = _camera.getParameters().getPreviewSize();
-
-            int width = size.height;
-            int height = size.width;
-
             // Compute focus area rect.
             Camera.Area focusAreaFromCoordinates;
             try {
-                int centerX = (int) Math.round(width * 0.5);
-                int centerY = (int) Math.round(height * 0.6);
+                int centerX = (Math.round(_leftOffset + _qrAreaWidth / 2 ));
+                int centerY = (Math.round(_heightOffset + _qrAreaHeight / 2));
                 focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(246, 392, _surfaceTextureWidth, _surfaceTextureHeight);
             } catch (final RuntimeException e) {
                 e.printStackTrace();
@@ -564,7 +559,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
                         if (success) {
-                            camera.cancelAutoFocus();
+//                            camera.cancelAutoFocus();
                         }
                     }
                 });
