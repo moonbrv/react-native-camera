@@ -512,7 +512,8 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
         }
     }
 
-    public void handleFocusCoordinates(Camera.Parameters params) {
+    public void handleFocusCoordinates() {
+        Camera.Parameters params = _camera.getParameters();
         List<String> supportedFocusModes = params.getSupportedFocusModes();
         if (supportedFocusModes != null && supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {
             // Ensure focus areas are enabled. If max num focus areas is 0, then focus area is not

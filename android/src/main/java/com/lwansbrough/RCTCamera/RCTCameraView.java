@@ -124,6 +124,12 @@ public class RCTCameraView extends ViewGroup {
         }
     }
 
+    public void handleFocusCoordinates() {
+        if (this._viewFinder != null) {
+            this._viewFinder.handleFocusCoordinates();
+        }
+    }
+
     public void setBarcodeScannerEnabled(boolean barcodeScannerEnabled) {
         RCTCamera.getInstance().setBarcodeScannerEnabled(barcodeScannerEnabled);
     }

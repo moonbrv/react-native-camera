@@ -6,14 +6,16 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.*;
 import com.facebook.react.uimanager.annotations.ReactProp;
+import com.facebook.react.common.MapBuilder;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
-public static final int COMMAND_SET_FOCUS = 1;
 
 public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
     private static final String REACT_CLASS = "RCTCamera";
+    public static final int COMMAND_SET_FOCUS = 1;
 
     @Override
     public String getName() {
@@ -27,14 +29,13 @@ public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
 
     @Override
     public Map<String,Integer> getCommandsMap() {
-        Log.d("React"," View manager getCommandsMap:");
         return MapBuilder.of(
                 "setFocus",
                 COMMAND_SET_FOCUS);
     }
 
     @Override
-    public void receiveComand(RCTCameraView view, int commandId, ReadableArray args) {
+    public void receiveCommand(RCTCameraView view, int commandId, ReadableArray args) {
         switch (commandId) {
             case COMMAND_SET_FOCUS: {
                 view.handleFocusCoordinates();
@@ -43,7 +44,7 @@ public class RCTCameraViewManager extends ViewGroupManager<RCTCameraView> {
             default:
                 throw new IllegalArgumentException(String.format(
                         "Unsupported command %d received by %s.",
-                        commandType,
+                        commandId,
                         getClass().getSimpleName()));
         }
     }
