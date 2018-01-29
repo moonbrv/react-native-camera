@@ -9,7 +9,8 @@ import {
   requireNativeComponent,
   View,
   ViewPropTypes,
-  UIManager
+  UIManager,
+  findNodeHandle
 } from 'react-native';
 
 const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
@@ -284,12 +285,11 @@ export default class Camera extends Component {
 
   setFocus() {
     UIManager.dispatchViewManagerCommand(
-      React.findNodeHandle(this),
-      UIManager.RSSignatureView.Commands.setFocus,
+      findNodeHandle(this),
+      UIManager.RCTCamera.Commands.setFocus,
       [],
     )
   }
-
 }
 
 export const constants = Camera.constants;
