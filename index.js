@@ -8,7 +8,8 @@ import {
   StyleSheet,
   requireNativeComponent,
   View,
-  ViewPropTypes
+  ViewPropTypes,
+  UIManager
 } from 'react-native';
 
 const CameraManager = NativeModules.CameraManager || NativeModules.CameraModule;
@@ -259,12 +260,6 @@ export default class Camera extends Component {
     }
   }
 
-  setFocusOnSnap() {
-    if (Platform.OS === 'android') {
-      CameraManager.setFocusOnSnap();
-    }
-  }
-
   stopCapture() {
     if (this.state.isRecording) {
       this.setState({ isRecording: false });
@@ -286,6 +281,15 @@ export default class Camera extends Component {
     }
     return CameraManager.hasFlash();
   }
+
+  setFocus() {
+    UIManager.dispatchViewManagerCommand(
+      React.findNodeHandle(this),
+      UIManager.RSSignatureView.Commands.setFocus,
+      [],
+    )
+  }
+
 }
 
 export const constants = Camera.constants;
