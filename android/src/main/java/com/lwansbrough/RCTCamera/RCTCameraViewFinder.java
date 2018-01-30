@@ -311,7 +311,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
      * See {Camera.PreviewCallback}
      */
     public void onPreviewFrame(byte[] data, Camera camera) {
-        handleFocusCoordinates();
+//        handleFocusCoordinates();
         if (RCTCamera.getInstance().isBarcodeScannerEnabled() && !RCTCameraViewFinder.barcodeScannerTaskLock) {
             RCTCameraViewFinder.barcodeScannerTaskLock = true;
             new ReaderAsyncTask(camera, data).execute();
@@ -502,7 +502,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
                         if (success) {
-//                            camera.cancelAutoFocus();
+                            camera.cancelAutoFocus();
                         }
                     }
                 });
@@ -530,7 +530,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
             try {
                 int centerX = (Math.round(_leftOffset + _qrAreaWidth / 2 ));
                 int centerY = (Math.round(_heightOffset + _qrAreaHeight / 2));
-                focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(246, 392, _surfaceTextureWidth, _surfaceTextureHeight);
+                focusAreaFromCoordinates = RCTCameraUtils.computeFocusAreaFromCoordinates(centerX, centerY, _surfaceTextureWidth, _surfaceTextureHeight);
             } catch (final RuntimeException e) {
                 e.printStackTrace();
                 return;
@@ -559,7 +559,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
                         if (success) {
-//                            camera.cancelAutoFocus();
+                            camera.cancelAutoFocus();
                         }
                     }
                 });
