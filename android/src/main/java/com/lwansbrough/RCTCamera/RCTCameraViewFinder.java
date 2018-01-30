@@ -145,7 +145,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private void startPreview() {
         if (_surfaceTexture != null) {
             startCamera();
-            handleFocusCoordinates();
+//            handleFocusCoordinates();
         }
     }
 
@@ -180,7 +180,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
                 }
 
-                handleFocusCoordinates();
+//                handleFocusCoordinates();
 
                 // set picture size
                 // defaults to max available size
@@ -311,6 +311,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
      * See {Camera.PreviewCallback}
      */
     public void onPreviewFrame(byte[] data, Camera camera) {
+        handleFocusCoordinates();
         if (RCTCamera.getInstance().isBarcodeScannerEnabled() && !RCTCameraViewFinder.barcodeScannerTaskLock) {
             RCTCameraViewFinder.barcodeScannerTaskLock = true;
             new ReaderAsyncTask(camera, data).execute();
