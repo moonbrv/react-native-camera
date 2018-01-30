@@ -313,6 +313,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
      */
     public void onPreviewFrame(byte[] data, Camera camera) {
         if (!_focusArea) {
+            _focusArea = true;
             handleFocusCoordinates();
         }
         if (RCTCamera.getInstance().isBarcodeScannerEnabled() && !RCTCameraViewFinder.barcodeScannerTaskLock) {
