@@ -47,6 +47,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     private int _qrAreaHeight;
     private int _leftOffset;
     private int _heightOffset;
+    private boolean _focusArea = false;
 
     // concurrency lock for barcode scanner to avoid flooding the runtime
     public static volatile boolean barcodeScannerTaskLock = false;
@@ -311,7 +312,9 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
      * See {Camera.PreviewCallback}
      */
     public void onPreviewFrame(byte[] data, Camera camera) {
-//        handleFocusCoordinates();
+        if (!_focusArea) {
+            handleFocusCoordinates();
+        }
         if (RCTCamera.getInstance().isBarcodeScannerEnabled() && !RCTCameraViewFinder.barcodeScannerTaskLock) {
             RCTCameraViewFinder.barcodeScannerTaskLock = true;
             new ReaderAsyncTask(camera, data).execute();
@@ -559,7 +562,7 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                     @Override
                     public void onAutoFocus(boolean success, Camera camera) {
                         if (success) {
-                            camera.cancelAutoFocus();
+//                            camera.cancelAutoFocus();
                         }
                     }
                 });
