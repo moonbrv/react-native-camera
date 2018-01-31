@@ -401,12 +401,12 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
                 event.putString("data", result.getText());
                 event.putString("type", result.getBarcodeFormat().toString());
                 reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("CameraBarCodeReadAndroid", event);
+                RCTCameraViewFinder.focusArea = false;
 
             } catch (Throwable t) {
                 // meh
             } finally {
                 _multiFormatReader.reset();
-                RCTCameraViewFinder.focusArea = false;
                 RCTCameraViewFinder.barcodeScannerTaskLock = false;
                 return null;
             }
