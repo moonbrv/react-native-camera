@@ -11,6 +11,7 @@ import android.hardware.Camera;
 import android.view.MotionEvent;
 import android.view.TextureView;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
@@ -410,6 +411,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (null ==_camera) {
+            Log.e("RCTCamera", "Camera not found on touch event");
+            return false;
+        }
         // Get the pointer ID
         Camera.Parameters params = _camera.getParameters();
         int action = event.getAction();
@@ -513,6 +518,10 @@ class RCTCameraViewFinder extends TextureView implements TextureView.SurfaceText
     }
 
     public void handleFocusCoordinates() {
+        if (null ==_camera) {
+            Log.e("RCTCamera", "Camera not found on touch event");
+            return;
+        }
         Camera.Parameters params = _camera.getParameters();
         List<String> supportedFocusModes = params.getSupportedFocusModes();
         if (supportedFocusModes != null && supportedFocusModes.contains(Camera.Parameters.FOCUS_MODE_AUTO)) {

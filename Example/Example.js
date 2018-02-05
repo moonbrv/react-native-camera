@@ -82,6 +82,7 @@ export default class Example extends React.Component {
 
   startRecording = () => {
     if (this.camera) {
+      console.log(this.camera)
       this.camera.capture({mode: Camera.constants.CaptureMode.video})
           .then((data) => console.log(data))
           .catch(err => console.error(err));
@@ -116,6 +117,19 @@ export default class Example extends React.Component {
         type: newType,
       },
     });
+  }
+
+  setFocus = () => {
+      if (this.camera) {
+        console.log(this.camera);
+        this.camera.setFocus();
+      }
+  }
+  setFocus = () => {
+      if (this.camera) {
+        console.log(this.camera);
+        this.camera.setFocus();
+      }
   }
 
   get typeIcon() {
@@ -239,6 +253,16 @@ export default class Example extends React.Component {
               >
                 <Image
                     source={require('./assets/ic_stop_36pt.png')}
+                />
+              </TouchableOpacity>
+          }
+          {
+              <TouchableOpacity
+                  style={styles.captureButton}
+                  onPress={this.setFocus}
+              >
+                <Image
+                    source={require('./assets/ic_videocam_36pt.png')}
                 />
               </TouchableOpacity>
           }
